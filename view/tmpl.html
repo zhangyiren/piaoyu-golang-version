@@ -1,0 +1,25 @@
+{{ define "layout" }}
+
+{{ template "meta" }}
+
+<div class="maxContainer">
+
+    {{ template "header" }}
+
+
+    <!-- 占位1 -->
+    <div class="occupiedOne"></div>
+
+    {{ template "index" .}}
+
+    <!-- 底部box -->
+    <div class="bottom-box"></div>
+
+    {{ template "navibar" }}
+
+
+</div><!-- maxContainer end -->
+
+{{ template "last" }}
+
+{{ end }}

@@ -1,0 +1,64 @@
+{{ define "layout2" }}
+
+    {{ template "meta" }}
+
+    <div class="maxContainer search-result-container">
+
+        {{ template "header" }}
+
+        <!-- 占位1 -->
+        <div class="occupiedOne"></div>
+
+        {{ template "search" }}
+
+        <!-- 占位2 -->
+        <div class="occupiedTwo"></div>
+
+
+        <div class="search-result-nav">
+            {{range $key, $value := .}}
+                {{ if eq $key 0 }}
+                    {{if eq $value.FilmType 1}}
+                        <span style="padding-left:0.5em;">热映影片</span>
+                    {{ end }}
+                    {{if eq $value.FilmType 2}}
+                        <span style="padding-left:0.5em;">即将上映</span>
+                    {{ end }}
+                {{ end }}
+            {{end}}
+        </div>
+
+
+        {{ range . }}
+        <div class="search-result-list">
+            <div class="blanker"></div>
+            <div class="movie-pic">
+                <a href="/introduce?filmId={{ .FilmId }}"><img src="/static/images/{{ .Image }}" width="80"></a>
+            </div>
+            <div class="movie-name">
+                <div class="mv-txt">
+                    <div class="gap"><a href="/introduce?filmId={{ .FilmId }}"><b>{{ .Name }}</b></a></div>
+                    <div class="gap">评分<span class="scc"> {{ .Score }}</span></div>
+                    <div class="gap">{{ .Director }}</div>
+                    <div class="gap">{{ .Actors }}</div>
+                </div>
+            </div>
+            <div class="buy-ticket-button">
+                <div class="btb">购票</div>
+            </div>
+        </div>
+        {{ end }}
+
+
+        <!-- 底部box -->
+        <div class="bottom-box"></div>
+
+
+        {{ template "navibar" }}
+
+
+    </div><!-- maxContainer end -->
+
+    {{ template "last" }}
+
+{{ end }}

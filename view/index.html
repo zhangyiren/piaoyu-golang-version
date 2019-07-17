@@ -1,0 +1,31 @@
+{{ define "index" }}
+
+    {{ template "search" }}
+
+    <!-- 占位2 -->
+    <div class="occupiedTwo"></div>
+
+    {{ template "slideshow" }}
+
+    <div id="separator-one"></div>
+
+    {{ template "tags" }}
+
+    <!-- 灰度分割条 -->
+    <div id="separator-two"></div>
+
+    {{ template "movielist" .}}
+
+    <!-- 灰度分割条 -->
+    <div id="separator-two"></div>
+
+    {{ template "coming" .}}
+
+    <!-- 灰度分割条 -->
+    <div id="separator-two"></div>
+
+    {{ template "dailytag" }}
+
+    {{ template "baseline" }}
+
+{{ end }}

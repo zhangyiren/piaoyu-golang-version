@@ -1,0 +1,26 @@
+{{ define "movielist" }}
+    <!-- 热映影片 -->
+    <div class="film-div">
+        <span class="hot-film">热映影片</span>
+        <span class="film-total"><a href="/process?t=1">全部 ></a></span>
+    </div> <!-- 热映影片 end -->
+
+
+    <!-- 影片海报栏 -->
+    <div class="poster-column-wrap">
+
+        <div class="poster-column">
+
+            {{ range . }}
+                {{ if eq .FilmType 1}}
+                    <div class="poster">
+                        <div class="img-center"><a href="/introduce?filmId={{ .FilmId }}"><img src="/static/images/{{ .Image }}" width="100" height="147"></a></div>
+                        <div class="film-name"><a href="/introduce?filmId={{ .FilmId }}"><span style="color:#333333;">{{ .Name }}</span></a></div>
+                    </div>
+                {{ end }}
+            {{ end }}
+
+        </div>
+
+    </div> <!-- 影片海报栏 end -->
+{{ end }}
