@@ -353,10 +353,8 @@ func InitDB() {
 //入口函数
 //entry function
 func main() {
-
 	InitDB()
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
-
 	//注册路由,第一个参数指的是请求路径，第二个参数是一个函数类型，表示这个请求需要处理的事情
 	http.HandleFunc("/",notFound)
 	http.HandleFunc("/index",index)
@@ -370,12 +368,9 @@ func main() {
 	http.HandleFunc("/liveshow",liveshow)
 	http.HandleFunc("/mine",mine)
 	http.HandleFunc("/dealAjaxRequest",dealAjaxRequest)
-
 	error := http.ListenAndServe(":9090",nil)
 	if error != nil {
 		log.Fatal("ListenAndServe:",error)
 	}
-
 	defer db.Close()
-
 }
