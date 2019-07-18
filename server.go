@@ -82,7 +82,7 @@ func notFound(w http.ResponseWriter,r *http.Request) {
 
 
 //首页的处理函数
-// index handler
+//index handler
 func index(w http.ResponseWriter,r *http.Request) {
 
 	//电影资料结构体
