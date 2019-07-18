@@ -13,11 +13,13 @@ import (
 )
 
 
+//数据库连接全局变量
 //database connection
 var db *sql.DB = nil
 var dbErr error = nil
 
 
+//数据库连接信息
 //global connection information
 const (
 	dbhostip="localhost"
@@ -28,9 +30,12 @@ const (
 )
 
 
+//模板目录
 //templates directory
 var wd,_ = os.Getwd()
 
+
+//模板定义
 //templates
 var (
 
@@ -60,26 +65,33 @@ var (
 )
 
 
+//检查错误
+//check errors
 func checkErr(err error){
 	if err!=nil{
 		panic(err)
 	}
 }
 
+//没有找到相关处理函数时统一由这个处理
+//if relative handler not found use this
 func notFound(w http.ResponseWriter,r *http.Request) {
 
 	fmt.Fprintf(w,"404 not found")
 }
 
 
+//首页的处理函数
+// index handler
 func index(w http.ResponseWriter,r *http.Request) {
 
+	//电影资料结构体
 	type FilmProfile struct {
 		Id int
 		FilmId int
-		Name string
-		Image string
-		FilmType int
+		Name string //电影名称
+		Image string //封面
+		FilmType int //类型
 	}
 
 	checkErr(dbErr)
@@ -121,7 +133,8 @@ func index(w http.ResponseWriter,r *http.Request) {
 }
 
 
-
+//精选推荐栏目
+//Featured selection
 func chosen(w http.ResponseWriter,r *http.Request){
 
 	t,_ := template.ParseFiles(chosenHome,meta,header,search,baseline,navibar,last)
@@ -129,7 +142,8 @@ func chosen(w http.ResponseWriter,r *http.Request){
 
 }
 
-
+//全球热映
+//hot film
 func hotshow(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(hotShowHome,meta,header,search,baseline,navibar,last)
@@ -137,7 +151,8 @@ func hotshow(w http.ResponseWriter, r *http.Request) {
 
 }
 
-
+//会员中心
+//Membership Center
 func usercenter(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(userCenterHome,meta,header,search,baseline,navibar,last)
@@ -146,6 +161,8 @@ func usercenter(w http.ResponseWriter, r *http.Request) {
 }
 
 
+//超值抢购
+//Great value for purchase
 func rushBuy(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(rushBuyHome,meta,header,search,baseline,navibar,last)
@@ -154,7 +171,8 @@ func rushBuy(w http.ResponseWriter, r *http.Request) {
 }
 
 
-
+//详情介绍
+//Detailed introduction
 func introduce(w http.ResponseWriter, r *http.Request) {
 
 
@@ -237,7 +255,8 @@ func introduce(w http.ResponseWriter, r *http.Request) {
 }
 
 
-
+//演出频道
+//live show channel
 func liveshow(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(liveShowHome,meta,header,search,baseline,navibar,last)
@@ -246,6 +265,8 @@ func liveshow(w http.ResponseWriter, r *http.Request) {
 }
 
 
+//我的主页
+//my home page
 func mine(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(mineHome,meta,header,search,baseline,navibar,last)
@@ -253,6 +274,8 @@ func mine(w http.ResponseWriter, r *http.Request) {
 }
 
 
+//代金券
+//coupon
 func exclusive(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(exclusiveHome,meta,header,search,baseline,navibar,last)
@@ -261,6 +284,8 @@ func exclusive(w http.ResponseWriter, r *http.Request) {
 }
 
 
+//搜索、全部列表
+//movie list、 search result
 func process(w http.ResponseWriter, r *http.Request) {
 
 	type OverView struct {
@@ -332,6 +357,7 @@ func process(w http.ResponseWriter, r *http.Request) {
 
 
 //处理ajax请求
+//deal ajax request
 func dealAjaxRequest(w http.ResponseWriter,r *http.Request){
 
 	type Message struct {
@@ -346,7 +372,8 @@ func dealAjaxRequest(w http.ResponseWriter,r *http.Request){
 }
 
 
-
+//数据库初始化
+//database initialization
 func InitDB() {
 	//构建连接："用户名:密码@tcp(IP:端口)/数据库?charset=utf8"
 	path := strings.Join([]string{dbusername, ":", dbpassword, "@tcp(",dbhostip, ":", port, ")/", dbname, "?charset=utf8"}, "")
@@ -364,7 +391,8 @@ func InitDB() {
 }
 
 
-
+//入口函数
+//entry function
 func main() {
 
 
