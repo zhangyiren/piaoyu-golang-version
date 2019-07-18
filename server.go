@@ -253,7 +253,6 @@ func exclusive(w http.ResponseWriter, r *http.Request) {
 //搜索、全部列表
 //movie list、 search result
 func process(w http.ResponseWriter, r *http.Request) {
-
 	type OverView struct {
 		Id int
 		FilmId int
@@ -278,7 +277,6 @@ func process(w http.ResponseWriter, r *http.Request) {
 	} else {
 		sql = baseSql + " where a.name like '%" + searchContent + "%'"
 	}
-
 
 	stmt, err := db.Prepare(sql)
 	checkErr(err)
@@ -316,7 +314,6 @@ func process(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(layout2Home,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "layout2", data)
-
 }
 
 
@@ -380,5 +377,5 @@ func main() {
 	}
 
 	defer db.Close()
-	
+
 }
