@@ -38,7 +38,6 @@ var wd,_ = os.Getwd()
 //模板定义
 //templates
 var (
-
 	meta = wd+"/view/meta.html"
 	header = wd+"/view/header.html"
 	search = wd+"/view/search.html"
@@ -61,7 +60,6 @@ var (
 	baseline = wd+"/view/baseline.html"
 	navibar = wd+"/view/navibar.html"
 	last = wd+"/view/last.html"
-
 )
 
 
@@ -76,7 +74,6 @@ func checkErr(err error){
 //没有找到相关处理函数时统一由这个处理
 //if relative handler not found use this
 func notFound(w http.ResponseWriter,r *http.Request) {
-
 	fmt.Fprintf(w,"404 not found")
 }
 
@@ -84,7 +81,6 @@ func notFound(w http.ResponseWriter,r *http.Request) {
 //首页的处理函数
 //index handler
 func index(w http.ResponseWriter,r *http.Request) {
-
 	//电影资料结构体
 	type FilmProfile struct {
 		Id int
@@ -100,7 +96,6 @@ func index(w http.ResponseWriter,r *http.Request) {
 	rows ,err :=stmt.Query()
 	checkErr(err)
 
-
 	data := make([]FilmProfile,0)
 	var profile FilmProfile
 
@@ -111,7 +106,6 @@ func index(w http.ResponseWriter,r *http.Request) {
 	var filmType int
 
 	for rows.Next() {
-
 		err :=rows.Scan(&id,&filmId,&name,&image,&filmType)
 		checkErr(err)
 		profile.Id = id
@@ -120,62 +114,48 @@ func index(w http.ResponseWriter,r *http.Request) {
 		profile.Image = image
 		profile.FilmType = filmType
 		data = append(data, profile)
-
-
 	}
 
 	defer stmt.Close()
 	defer rows.Close()
-
 	t,_ := template.ParseFiles(layout,meta,indexHome,header,search,slideshow,tags,movielist,coming,dailytag,baseline,navibar,last)
 	t.ExecuteTemplate(w, "layout", data)
-
 }
 
 
 //精选推荐栏目
 //Featured selection
 func chosen(w http.ResponseWriter,r *http.Request){
-
 	t,_ := template.ParseFiles(chosenHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "chosen", "")
-
 }
 
 //全球热映
 //hot film
 func hotshow(w http.ResponseWriter, r *http.Request) {
-
 	t,_ := template.ParseFiles(hotShowHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "hotshow", "")
-
 }
 
 //会员中心
 //Membership Center
 func usercenter(w http.ResponseWriter, r *http.Request) {
-
 	t,_ := template.ParseFiles(userCenterHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "usercenter", "")
-
 }
 
 
 //超值抢购
 //Great value for purchase
 func rushBuy(w http.ResponseWriter, r *http.Request) {
-
 	t,_ := template.ParseFiles(rushBuyHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "rushBuy", "")
-
 }
 
 
 //详情介绍
 //Detailed introduction
 func introduce(w http.ResponseWriter, r *http.Request) {
-
-
 	filmId := r.FormValue("filmId")
 
 	type Detail struct {
@@ -192,31 +172,25 @@ func introduce(w http.ResponseWriter, r *http.Request) {
 		Actors string
 	}
 
-
 	type Comment struct {
-
 		NickName string
 		Photo string
 		GiveScore float64
 		CommentContent string
 		CommentDate string
 		Zan int
-
 	}
-
 
 	type Data struct {
 		FilmDetail Detail
 		FilmComment[] Comment
 	}
 
-
 	var detail Detail
 	var comment Comment
 	var data Data
 
 	commentData := make([]Comment,0)
-
 
 	// get detailData
 	var sql string
@@ -229,7 +203,6 @@ func introduce(w http.ResponseWriter, r *http.Request) {
 		checkErr(errOne)
 	}
 
-
 	// get commentData
 	sql = "select nickName,photo,giveScore,commentContent,commentDate,zan from `filmComment` where filmId=" + filmId + " order by commentDate desc"
 	stmtsTwo, _ := db.Prepare(sql)
@@ -239,7 +212,6 @@ func introduce(w http.ResponseWriter, r *http.Request) {
 		checkErr(errsTwo)
 		commentData = append(commentData, comment)
 	}
-
 
 	data.FilmDetail = detail
 	data.FilmComment = commentData
@@ -251,24 +223,20 @@ func introduce(w http.ResponseWriter, r *http.Request) {
 
 	t,_ := template.ParseFiles(introduceHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "introduce", data)
-
 }
 
 
 //演出频道
 //live show channel
 func liveshow(w http.ResponseWriter, r *http.Request) {
-
 	t,_ := template.ParseFiles(liveShowHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "liveshow", "")
-
 }
 
 
 //我的主页
 //my home page
 func mine(w http.ResponseWriter, r *http.Request) {
-
 	t,_ := template.ParseFiles(mineHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "mine", "")
 }
@@ -277,10 +245,8 @@ func mine(w http.ResponseWriter, r *http.Request) {
 //代金券
 //coupon
 func exclusive(w http.ResponseWriter, r *http.Request) {
-
 	t,_ := template.ParseFiles(exclusiveHome,meta,header,search,baseline,navibar,last)
 	t.ExecuteTemplate(w, "exclusive", "")
-
 }
 
 
@@ -298,7 +264,6 @@ func process(w http.ResponseWriter, r *http.Request) {
 		Director string
 		Actors string
 	}
-
 
 	var sql string
 	baseSql := "select a.id,a.filmId,a.name,a.image,a.filmType,b.score,b.director,b.actors from filmprofile a left join filmbrief b on a.filmId=b.filmId"
@@ -319,7 +284,6 @@ func process(w http.ResponseWriter, r *http.Request) {
 	checkErr(err)
 	rows ,err :=stmt.Query()
 	checkErr(err)
-
 
 	var id int
 	var filmId int
@@ -359,7 +323,6 @@ func process(w http.ResponseWriter, r *http.Request) {
 //处理ajax请求
 //deal ajax request
 func dealAjaxRequest(w http.ResponseWriter,r *http.Request){
-
 	type Message struct {
       Names string
       Contents string
@@ -368,7 +331,6 @@ func dealAjaxRequest(w http.ResponseWriter,r *http.Request){
     m := Message{"Alice", "Hello world", 1294706395881547001}
     b, _ := json.Marshal(m)
     fmt.Fprintf(w,string(b))
-
 }
 
 
@@ -395,7 +357,6 @@ func InitDB() {
 //entry function
 func main() {
 
-
 	InitDB()
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
 
@@ -419,5 +380,5 @@ func main() {
 	}
 
 	defer db.Close()
-
+	
 }
