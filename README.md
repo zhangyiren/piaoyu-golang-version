@@ -7,9 +7,11 @@ As it becom more and more popular these years , many projects were writen in gol
 
 ## installation requirements
 This document is for the latest go 1.10 release and later.
-1. import database file in database/piaoyu.sql
-2. go build server.go
-3. run it 
+1. import data file in database/piaoyu.sql
+2. run Mysql Server
+3. go build server.go
+4. ./server
+5. open link http://localhost:9090/index
 
 
 ## screenshot
